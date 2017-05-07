@@ -1,0 +1,79 @@
+<html lang="en" >
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Angular Material style sheet -->
+  <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
+</head>
+<body ng-app="MapApp" ng-cloak>
+  <md-toolbar class="md-hue-2">
+      <div class="md-toolbar-tools">
+        <md-button class="md-icon-button" aria-label="Settings" ng-disabled="true">
+          <md-icon md-svg-icon="img/icons/menu.svg"></md-icon>
+        </md-button>
+
+        <h2 flex md-truncate>Incidents</h2>
+      </div>
+    </md-toolbar>
+
+    <div ng-controller="MapCtrl">
+    <md-card ng-repeat="i in incidents">
+        <md-card-title>
+          <md-card-title-text>
+            <span class="md-headline">{{ i.title }}</span>
+            <span class="md-subhead">{{ i.date }}</span>
+          </md-card-title-text>
+        </md-card-title>
+        <md-card-content layout="row" layout-align="space between">
+          <p>{{ i.desc }}</p>
+        </md-card-content>
+      </md-card>
+    </div>
+  
+  <!-- Angular Material requires Angular.js Libraries -->
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.min.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-aria.min.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-messages.min.js"></script>
+
+  <!-- Angular Material Library -->
+  <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.js"></script>
+
+  	<!-- Firebase -->
+	<script src="https://www.gstatic.com/firebasejs/3.6.6/firebase.js"></script>
+
+	<!-- AngularFire -->
+	<script src="https://cdn.firebase.com/libs/angularfire/2.3.0/angularfire.min.js"></script>
+  
+  <!-- Your application bootstrap  -->
+  <script type="text/javascript">    
+    // Initialize the Firebase SDK
+  var config = {
+    apiKey: 'AIzaSyAOWml3M-4GKkCwuzMo5pVLjO_MOtFBDts',
+    authDomain: '<your-auth-domain>',
+    databaseURL: 'https://solid-time-166822.firebaseio.com/',
+    storageBucket: 'incident'
+  };
+  firebase.initializeApp(config);
+
+    /**
+     * You must include the dependency on 'ngMaterial' 
+     */
+    var app = angular.module('MapApp', ['ngMaterial','firebase']);
+
+    app.controller("MapCtrl", function($scope, $firebaseArray) {
+  	var ref = firebase.database().ref().child('incident');
+  	// download the data into a local object
+  	$scope.incidents = $firebaseArray(ref);
+  	// putting a console.log here won't work, see below
+	});
+
+
+  </script>
+  
+</body>
+</html>
+
+<!--
+Copyright 2016 Google Inc. All Rights Reserved. 
+Use of this source code is governed by an MIT-style license that can be in foundin the LICENSE file at http://material.angularjs.org/license.
+-->
