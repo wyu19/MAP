@@ -1,5 +1,8 @@
 package maps.myapplication;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -11,6 +14,8 @@ public class Incident {
     private Date mdate;
     private String mdesc;
     private String mtitle;
+
+    private final String dateFormat = "yyyy-MM-dd'T'HH:mm:ss";
 
     public Incident(){
 
@@ -25,14 +30,13 @@ public class Incident {
 
     }
 
-    public Date getDate()
+    public String getDate()
     {
-        return mdate;
+        return new SimpleDateFormat(dateFormat).format(mdate);
     }
 
-    public void setDate(Date date)
-    {
-        mdate=date;
+    public void setDate(String date) throws ParseException {
+        mdate= new SimpleDateFormat(dateFormat).parse(date);
     }
 
     public String getDesc()
