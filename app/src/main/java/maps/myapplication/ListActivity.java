@@ -190,19 +190,22 @@ public class ListActivity extends AppCompatActivity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_list, container, false);
-            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            switch(getArguments().getInt(ARG_SECTION_NUMBER)) {
-                case 1:
+            View rootView;
 
+            switch (getArguments().getInt(ARG_SECTION_NUMBER)) {
+                case 1:
+                    rootView = inflater.inflate(R.layout.fragment_map, container, false);
                     break;
                 case 2:
+                    rootView = inflater.inflate(R.layout.fragment_list, container, false);
+                    TextView textView = (TextView) rootView.findViewById(R.id.section_label);
                     textView.setText("Number 2");
                     break;
                 case 3:
-                    textView.setText("");
+                    rootView = inflater.inflate(R.layout.fragment_about, container, false);
                     break;
                 default:
+                    rootView = null;
             }
             return rootView;
         }
