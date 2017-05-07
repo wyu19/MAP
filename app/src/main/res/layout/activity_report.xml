@@ -33,8 +33,9 @@
                 android:id="@+id/textView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Add an incident"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                android:hint="Add an incident"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:visibility="visible" />
 
             <EditText
                 android:id="@+id/editText"
@@ -42,7 +43,8 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="textPersonName"
-                android:text="Title" />
+                android:hint="Title"
+                android:backgroundTint="@color/colorPrimaryDark"/>
 
             <EditText
                 android:id="@+id/editText2"
@@ -50,8 +52,9 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="textMultiLine"
-                android:text="Description"
-                android:layout_weight="3" />
+                android:hint="Description"
+                android:layout_weight="3"
+                android:backgroundTint="@color/colorPrimaryDark"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -73,6 +76,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:background="@color/colorPrimaryDark"
                     android:text="Post" />
             </LinearLayout>
 
