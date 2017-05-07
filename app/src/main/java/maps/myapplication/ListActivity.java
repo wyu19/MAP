@@ -1,5 +1,10 @@
 package maps.myapplication;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -7,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -39,7 +45,7 @@ public class ListActivity extends AppCompatActivity {
         spinner.setAdapter(new MyAdapter(
                 toolbar.getContext(),
                 new String[]{
-                        "Section 1",
+                        "Incidents Near You",
                         "Section 2",
                         "Section 3",
                 }));
@@ -70,7 +76,28 @@ public class ListActivity extends AppCompatActivity {
             }
         });
 
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference photoRef = database.getReference("photo");
+        DatabaseReference timeRef = database.getReference("time");
+        DatabaseReference descRef = database.getReference("desc");
+        descRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                String value = dataSnapshot.getValue(String.class);
+                Log.d("MapApp", "Value is: " + value);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w("MapApp", "Failed to read value.", error.toException());
+            }
+        });
     }
+
+
 
 
     @Override
@@ -138,6 +165,7 @@ public class ListActivity extends AppCompatActivity {
      * A placeholder fragment containing a simple view.
      */
     public static class PlaceholderFragment extends Fragment {
+
         /**
          * The fragment argument representing the section number for this
          * fragment.
@@ -166,7 +194,7 @@ public class ListActivity extends AppCompatActivity {
             TextView textView = (TextView) rootView.findViewById(R.id.section_label);
             switch(getArguments().getInt(ARG_SECTION_NUMBER)) {
                 case 1:
-                    textView.setText("This is a test.");
+
                     break;
                 case 2:
                     textView.setText("Number 2");
