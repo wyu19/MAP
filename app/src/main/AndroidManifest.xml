@@ -30,7 +30,7 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".MapsActivity"
+            android:name=".ReportActivity"
             android:label="@string/title_activity_maps">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -39,7 +39,7 @@
         <activity
             android:name=".ListActivity"
             android:label="@string/title_activity_list"
-            android:parentActivityName=".MapsActivity"
+            android:parentActivityName=".ReportActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
