@@ -12,11 +12,11 @@
           <md-icon md-font-icon="menu"></md-icon>
         </md-button>
 
-        <h2 flex md-truncate>Incidents</h2>
+        <h2 flex md-truncate>AdjustGov</h2>
       </div>
     </md-toolbar>
 
-    <div ng-controller="MapCtrl">
+    <div ng-controller="MapCtrl" style="max-width:1000px;margin:auto">
     <md-card ng-repeat="i in incidents | orderBy:'-date'">
         <md-card-title>
           <md-card-title-text>
@@ -27,6 +27,9 @@
         <md-card-content layout="row" layout-align="space between">
           <p>{{ i.desc }}</p>
         </md-card-content>
+        <md-card-actions layout="row" layout-align="end center">
+        	<a href="http://maps.google.com/maps?q=loc:{{ i.lat }},{{ i.lng }}" style="color:inherit; text-decoration: none"><md-button>Google Maps</md-button></a>
+        </md-card-actions>
       </md-card>
     </div>
   
