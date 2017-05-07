@@ -16,9 +16,9 @@ public class Incident {
     private String mtitle;
 
     private final String dateFormat = "yyyy-MM-dd'T'HH:mm:ss";
+    private final String dateHuman = "EEE, d MMM yyyy, hh:mm aaa";
 
     public Incident(){
-
 
     }
 
@@ -30,13 +30,17 @@ public class Incident {
 
     }
 
+    public String getHumanDate() {
+        return mdate != null ? new SimpleDateFormat(dateHuman).format(mdate) : "(unknown)";
+    }
+
     public String getDate()
     {
-        return new SimpleDateFormat(dateFormat).format(mdate);
+        return mdate != null ? new SimpleDateFormat(dateFormat).format(mdate) : "";
     }
 
     public void setDate(String date) throws ParseException {
-        mdate= new SimpleDateFormat(dateFormat).parse(date);
+        mdate = new SimpleDateFormat(dateFormat).parse(date);
     }
 
     public String getDesc()

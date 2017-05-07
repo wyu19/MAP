@@ -3,11 +3,13 @@ package maps.myapplication;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.ListViewCompat;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -73,10 +75,17 @@ public class ListIncidentsActivity extends AppCompatActivity {
             protected void populateView(View view, Incident model, int position) {
                 ((TextView)view.findViewById(android.R.id.text1)).setText(model.getTitle());
                 ((TextView)view.findViewById(android.R.id.text2)).setText(model.getDesc());
-                Log.d("appmap", "Populating " + model.getTitle());
+                //Log.d("appmap", "Populating " + model.getTitle());
             }
         };
         listView.setAdapter(mAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String value = ((Incident)parent.getItemAtPosition(position)).getHumanDate();
+                Snackbar.make(view, "Posted on " + value, Snackbar.LENGTH_LONG).show();
+            }
+        });
     }
 
     @Override
