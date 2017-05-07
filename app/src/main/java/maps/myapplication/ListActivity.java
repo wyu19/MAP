@@ -165,7 +165,18 @@ public class ListActivity extends AppCompatActivity {
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_list, container, false);
             TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
+            switch(getArguments().getInt(ARG_SECTION_NUMBER)) {
+                case 1:
+                    textView.setText("This is a test.");
+                    break;
+                case 2:
+                    textView.setText("Number 2");
+                    break;
+                case 3:
+                    textView.setText("");
+                    break;
+                default:
+            }
             return rootView;
         }
     }
