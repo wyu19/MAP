@@ -76,25 +76,7 @@ public class ListActivity extends AppCompatActivity {
             }
         });
 
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference photoRef = database.getReference("photo");
-        DatabaseReference timeRef = database.getReference("time");
-        DatabaseReference descRef = database.getReference("desc");
-        descRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
-                String value = dataSnapshot.getValue(String.class);
-                Log.d("MapApp", "Value is: " + value);
-            }
 
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                Log.w("MapApp", "Failed to read value.", error.toException());
-            }
-        });
     }
 
 
@@ -190,16 +172,18 @@ public class ListActivity extends AppCompatActivity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView;
+
+            final View rootView;
 
             switch (getArguments().getInt(ARG_SECTION_NUMBER)) {
                 case 1:
                     rootView = inflater.inflate(R.layout.fragment_map, container, false);
                     break;
                 case 2:
+
                     rootView = inflater.inflate(R.layout.fragment_list, container, false);
-                    TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-                    textView.setText("Number 2");
+                    TextView textView = (TextView) rootView.findViewById(R.id.textViewIncidents);
+//                    textView.setText("text goes here");
                     break;
                 case 3:
                     rootView = inflater.inflate(R.layout.fragment_about, container, false);
@@ -207,6 +191,30 @@ public class ListActivity extends AppCompatActivity {
                 default:
                     rootView = null;
             }
+
+            // === Firebase ===
+            FirebaseDatabase database = FirebaseDatabase.getInstance();
+            DatabaseReference titleRef = database.getReference("incident");
+            DatabaseReference timeRef = database.getReference("time");
+            DatabaseReference descRef = database.getReference("desc");
+
+            titleRef.limitToLast(5).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot snapshot) {
+                    for (DataSnapshot dataSnapshot: snapshot.getChildren()) {
+
+                        String value = dataSnapshot.child("title").toString();
+                        Log.i("MapApp", "Incident is: " + value);
+                        TextView textView = (TextView) rootView.findViewById(R.id.textViewIncidents);
+                        textView.setText(value);
+                    }
+                }
+                @Override
+                public void onCancelled(DatabaseError error) {
+                    Log.e("MapApp", "Failed to read value: " + error.toException());
+                }
+            });
+
             return rootView;
         }
     }

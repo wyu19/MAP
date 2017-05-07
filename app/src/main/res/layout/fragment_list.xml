@@ -9,8 +9,14 @@
     tools:context="maps.myapplication.ListActivity$PlaceholderFragment">
 
     <TextView
-        android:id="@+id/section_label"
+        android:id="@+id/textViewIncidents"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/section_label"
+        android:layout_marginLeft="95dp"
+        android:layout_marginStart="95dp"
+        android:layout_toEndOf="@+id/section_label"
+        android:layout_toRightOf="@+id/section_label"
+        android:text="TextView" />
 
 </RelativeLayout>
