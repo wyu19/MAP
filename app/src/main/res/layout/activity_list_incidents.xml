@@ -22,7 +22,7 @@
 
     <include
         android:id="@+id/include2"
-        layout="@layout/content_new_list"
+        layout="@layout/content_list_incidents"
         android:visibility="invisible" />
 
     <android.support.design.widget.FloatingActionButton
