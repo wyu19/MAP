@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "474867658189",
+    "firebase_url": "https://solid-time-166822.firebaseio.com",
+    "project_id": "solid-time-166822",
+    "storage_bucket": "solid-time-166822.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:474867658189:android:f3473e36b09f1615",
+        "android_client_info": {
+          "package_name": "maps.myapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "474867658189-son5l6pcq9fcal5rphtq8hp0ub00l9sg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "maps.myapplication",
+            "certificate_hash": "d0dd639c601f470305fe6874a94ad8379755b472"
+          }
+        },
+        {
+          "client_id": "474867658189-8b80r5k0n4fpf8icbkfftlq4sjcfur0k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDFgZjaEeW8h-TPmAOfyd0DL2fQ8EE6Ez4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "474867658189-8b80r5k0n4fpf8icbkfftlq4sjcfur0k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
