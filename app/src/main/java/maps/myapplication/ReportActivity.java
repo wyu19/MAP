@@ -1,12 +1,10 @@
 package maps.myapplication;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
-import android.net.Uri;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
@@ -14,7 +12,7 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
+import android.widget.EditText;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -24,9 +22,14 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.Date;
 
 public class ReportActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMapClickListener {
-
+    private EditText editTextTitle;
+    private EditText editTextDesc;
     private GoogleMap mMap;
 
     final int MY_LOCATION_REQUEST_CODE = 42069;
@@ -39,6 +42,8 @@ public class ReportActivity extends FragmentActivity implements OnMapReadyCallba
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report);
+        editTextTitle = (EditText) findViewById(R.id.editTextTitle);
+        editTextDesc = (EditText) findViewById(R.id.editTextDesc);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -53,9 +58,35 @@ public class ReportActivity extends FragmentActivity implements OnMapReadyCallba
         });
         final Button postButton = (Button) findViewById(R.id.reportButtonPost);
         postButton.setOnClickListener(new View.OnClickListener() {
+            @Override
             public void onClick(View view) {
                 if(marker != null) {
-                    Snackbar.make(view, "Location: " + newIncident.getHumanLoc(), Snackbar.LENGTH_LONG).show();
+
+
+//                        //Creating firebase object
+
+                        FirebaseDatabase database = FirebaseDatabase.getInstance();
+                        DatabaseReference ref = database.getReference("incident");
+//                        //Getting values to store
+                        Date today = new Date();
+                        newIncident.putDate(today);
+
+
+
+                        String title = editTextTitle.getText().toString().trim();
+                        String desc = editTextDesc.getText().toString().trim();
+
+
+                        //Adding values
+                        newIncident.setTitle(title);
+                        newIncident.setDesc(desc);
+
+                        //Storing values to firebase
+                        ref.push().setValue(newIncident);
+
+
+                    Snackbar.make(view, "Location: " + newIncident.makeHumanLoc(), Snackbar.LENGTH_LONG).show();
+                    finish();
                 } else {
                     Snackbar.make(view, "Cannot submit incident without location.", Snackbar.LENGTH_LONG).show();
                 }
@@ -152,9 +183,10 @@ public class ReportActivity extends FragmentActivity implements OnMapReadyCallba
                     // to handle the case where the user grants the permission. See the documentation
                     // for ActivityCompat#requestPermissions for more details.
                     return;
+                }
+                mMap.setMyLocationEnabled(true);
             }
-            mMap.setMyLocationEnabled(true);
-        } else {
+            else {
                 // Permission was denied. Display an error message.
         }
     }
@@ -163,6 +195,6 @@ public class ReportActivity extends FragmentActivity implements OnMapReadyCallba
     public void onMapClick(LatLng latLng) {
         if(marker != null) marker.remove();
         marker = mMap.addMarker(new MarkerOptions().position(latLng).title(latLng.toString()));
-        newIncident.setLoc(latLng);
+        newIncident.putLoc(latLng);
     }
 }

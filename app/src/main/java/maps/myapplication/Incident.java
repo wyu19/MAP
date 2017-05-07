@@ -2,7 +2,6 @@ package maps.myapplication;
 
 import com.google.android.gms.maps.model.LatLng;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -16,35 +15,36 @@ public class Incident {
     private Date mdate;
     private String mdesc;
     private String mtitle;
-    private LatLng loc;
+    private LatLng mloc;
 
     private final String dateFormat = "yyyy-MM-dd'T'HH:mm:ss";
     private final String dateHuman = "EEE, d MMM yyyy, hh:mm aaa";
 
     public Incident(){
-        loc = new LatLng(0, 0);
+        mloc = new LatLng(0, 0);
     }
 
     public Incident(Date date, String desc, double lat, double lng, String title)
     {
         mdate=date;
         mdesc=desc;
-        loc = new LatLng(lat, lng);
+        mloc = new LatLng(lat, lng);
         mtitle=title;
 
     }
 
-    public String getHumanDate() {
+    public String makeHumanDate() {
         return mdate != null ? new SimpleDateFormat(dateHuman).format(mdate) : "(unknown)";
     }
 
-    public String getHumanLoc() {
-        return this.loc.toString();
+    public String makeHumanLoc() {
+        return this.mloc.toString();
     }
 
-    public void setLoc(LatLng loc) {
-        this.loc = loc;
+    public void putLoc(LatLng loc) {
+        this.mloc = loc;
     }
+
 
     public String getDate()
     {
@@ -52,7 +52,15 @@ public class Incident {
     }
 
     public void setDate(String date) throws ParseException {
-        mdate = new SimpleDateFormat(dateFormat).parse(date);
+
+        if(date.length() > 0) {
+            mdate = new SimpleDateFormat(dateFormat).parse(date);
+        }
+    }
+
+    public void putDate(Date date)
+    {
+        this.mdate = date;
     }
 
     public String getDesc()
@@ -66,21 +74,21 @@ public class Incident {
     }
 
     public double getLat() {
-        return this.loc.latitude;
+        return this.mloc.latitude;
     }
 
     public void setLat(double lat) {
-        double lng = loc.longitude;
-        this.loc = new LatLng(lat, lng);
+        double lng = mloc.longitude;
+        this.mloc = new LatLng(lat, lng);
     }
 
     public double getLng() {
-        return this.loc.longitude;
+        return this.mloc.longitude;
     }
 
     public void setLng(double lng) {
-        double lat = loc.latitude;
-        this.loc = new LatLng(lat, lng);
+        double lat = mloc.latitude;
+        this.mloc = new LatLng(lat, lng);
     }
 
     public String getTitle()
@@ -88,7 +96,7 @@ public class Incident {
         return mtitle;
     }
 
-    public void setTitle( String title)
+    public void setTitle(String title)
     {
         mtitle=title;
     }
