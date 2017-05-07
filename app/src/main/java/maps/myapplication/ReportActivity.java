@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
@@ -13,6 +14,7 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -20,13 +22,17 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class ReportActivity extends FragmentActivity implements OnMapReadyCallback {
+public class ReportActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMapClickListener {
 
     private GoogleMap mMap;
 
     final int MY_LOCATION_REQUEST_CODE = 42069;
+
+    Incident newIncident;
+    Marker marker;
 
     //
     @Override
@@ -48,12 +54,11 @@ public class ReportActivity extends FragmentActivity implements OnMapReadyCallba
         final Button postButton = (Button) findViewById(R.id.reportButtonPost);
         postButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                Snackbar.make(view, "Sorry, we haven't coded this yet", Snackbar.LENGTH_LONG)
-                        .setAction("Home", new View.OnClickListener() {
-                            public void onClick(View view) {
-                                finish();
-                            }
-                        }).show();
+                if(marker != null) {
+                    Snackbar.make(view, "Location: " + newIncident.getHumanLoc(), Snackbar.LENGTH_LONG).show();
+                } else {
+                    Snackbar.make(view, "Cannot submit incident without location.", Snackbar.LENGTH_LONG).show();
+                }
             }
         });
 
@@ -83,6 +88,8 @@ public class ReportActivity extends FragmentActivity implements OnMapReadyCallba
                 // result of the request.
             }
         }
+
+        newIncident = new Incident();
     }
 
 
@@ -124,6 +131,8 @@ public class ReportActivity extends FragmentActivity implements OnMapReadyCallba
             }
         }
 
+        mMap.setOnMapClickListener((GoogleMap.OnMapClickListener) this);
+
         /*Add a marker in Sydney and move the camera
         LatLng sydney = new LatLng(-34, 151);
         mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
@@ -143,10 +152,17 @@ public class ReportActivity extends FragmentActivity implements OnMapReadyCallba
                     // to handle the case where the user grants the permission. See the documentation
                     // for ActivityCompat#requestPermissions for more details.
                     return;
-                }
-                mMap.setMyLocationEnabled(true);
-            } else {
-                // Permission was denied. Display an error message.
             }
+            mMap.setMyLocationEnabled(true);
+        } else {
+                // Permission was denied. Display an error message.
         }
+    }
+
+    @Override
+    public void onMapClick(LatLng latLng) {
+        if(marker != null) marker.remove();
+        marker = mMap.addMarker(new MarkerOptions().position(latLng).title(latLng.toString()));
+        newIncident.setLoc(latLng);
+    }
 }

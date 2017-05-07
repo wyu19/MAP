@@ -75,7 +75,7 @@ public class ListIncidentsActivity extends AppCompatActivity {
             protected void populateView(View view, Incident model, int position) {
                 ((TextView)view.findViewById(android.R.id.text1)).setText(model.getTitle());
                 ((TextView)view.findViewById(android.R.id.text2)).setText(model.getDesc());
-                //Log.d("appmap", "Populating " + model.getTitle());
+                // Log.d("appmap", "Populating " + model.getTitle());
             }
         };
         listView.setAdapter(mAdapter);
